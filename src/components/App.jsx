@@ -17,7 +17,7 @@ class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-  }
+  };
 
   addContact = data => {
     const { contacts } = this.state;
@@ -62,13 +62,28 @@ class App extends Component {
       return nameValue.includes(filterValue);
     });
     return filteredContacts;
-  }
+  };
 
   handleFilter = ({ target }) => {
     this.setState({
       filter: target.value,
     });
+
   };
+componentDidMount(){
+  const contacts = localStorage.getItem('contacts');
+  const parselContacts = JSON.parse(contacts);
+  if(parselContacts){
+  this.setState({contacts: parselContacts})
+  }
+};
+
+  componentDidUpdate(prevProps, prevState){
+    if (this.state.contacts !== prevState.contacts);
+    localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+    };
+
+
   render() {
     const { handleFilter, removeContact, addContact } = this;
     const contacts = this.getFilteredContacts();
